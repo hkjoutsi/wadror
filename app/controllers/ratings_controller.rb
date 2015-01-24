@@ -18,4 +18,10 @@ class RatingsController < ApplicationController
     	#@ratings = Rating.all
     	#render :index
     end
+
+    def destroy
+        rating = Rating.find(params[:id])
+        rating.delete
+        redirect_to ratings_path
+    end
 end

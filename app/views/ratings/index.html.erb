@@ -4,7 +4,7 @@
 
 <ul>
     <% @ratings.each do |rating| %>
-    <li><%= rating %></li>
+    <li><%= rating %> <%= link_to 'delete', rating_path(rating.id), method: :delete, data: { confirm: 'Are you sure?' } %></li>
     <% end %>
 </ul>
 
@@ -12,5 +12,5 @@
 Count of ratings: <%= @ratings.count%>
 </p>
 
-<%= link_to 'New Rating', ratings_new_path %><br>
+<%= link_to 'New Rating', new_rating_path %><br>
 <%= link_to 'List of beers to rate', beers_path %>
