@@ -1,5 +1,6 @@
 class BreweriesController < ApplicationController
   before_action :set_brewery, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate, only: [:destroy]
 
   # GET /breweries
   # GET /breweries.json
@@ -71,4 +72,18 @@ class BreweriesController < ApplicationController
     def brewery_params
       params.require(:brewery).permit(:name, :year)
     end
+
+  # HUOM: älä kirjoita private-määrettä tiedostoon ennen kontrollerimetodeja (index, new, ...)
+
+  private
+
+  def authenticate
+      #raise "toteuta autentikointi"
+      admin_accounts = { "admin" => "secret", "pekka" => "beer", "heta" => "kissa", "muita" => "pareja"}
+      authenticate_or_request_with_http_basic do |username, password|
+        #username == "admin" and password == "secret"
+        admin_accounts.has_key?(username) and admin_accounts[username] == password
+      end
+  end
+
 end
