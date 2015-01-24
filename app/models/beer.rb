@@ -8,4 +8,9 @@ class Beer < ActiveRecord::Base
         #s = ratings.map { |r| r.score}.inject (0) { |sum, i| sum + i }
         #s/n
     end
+
+    def to_s
+    	#"moi! oon olut."
+    	"#{name}, from #{brewery.name}"
+    end
 end
