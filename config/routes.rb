@@ -1,5 +1,17 @@
 Rails.application.routes.draw do
+  resources :memberships
+
+  resources :beer_clubs
+
+  resources :users
+  get 'signup', to: 'users#new' 
+
+  resource :session, only: [:new, :create, :delete]
+  get 'signin', to: 'sessions#new'
+  delete 'signout', to: 'sessions#destroy'
+
   resources :beers
+  get 'kaikki_bisset', to: 'beers#index'
 
   resources :breweries
 
@@ -7,7 +19,7 @@ Rails.application.routes.draw do
 
   root 'breweries#index'
 
-  get 'kaikki_bisset', to: 'beers#index'
+
 
   #get 'ratings', to: 'ratings#index'
   #get 'ratings/new', to:'ratings#new'

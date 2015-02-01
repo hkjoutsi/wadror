@@ -3,6 +3,9 @@ class Beer < ActiveRecord::Base
 
     belongs_to :brewery
     has_many :ratings, dependent: :destroy
+    has_many :raters, -> { uniq }, through: :ratings, source: :user
+
+    validates :name, presence: true
 
 #    def average_rating
 #        ratings.average(:score).round(1).to_s
@@ -15,4 +18,14 @@ class Beer < ActiveRecord::Base
     	#"moi! oon olut."
     	"#{name}, from #{brewery.name}"
     end
+
+    def average
+    	# code here
+    	# byebug
+    	if ratings.count == 0
+    		return 0
+    	end
+    	ratings.map{ |r| r.score}.sum.to_f / ratings.count.to_f
+    end
+
 end
