@@ -1,5 +1,6 @@
 class MembershipsController < ApplicationController
   before_action :set_membership, only: [:show, :edit, :update, :destroy]
+  before_action :set_beer_clubs_for_template, only: [:new, :edit, :create]
 
   # GET /memberships
   # GET /memberships.json
@@ -15,7 +16,7 @@ class MembershipsController < ApplicationController
   # GET /memberships/new
   def new
     @membership = Membership.new
-    @beer_clubs = BeerClub.all.reject{ |b| b.members.include? current_user }
+    #@beer_clubs = BeerClub.all.reject{ |b| b.members.include? current_user }
     #in membership model also the following: validates_uniqueness_of :user_id, scope: :beer_club_id
   end
 
@@ -34,7 +35,7 @@ class MembershipsController < ApplicationController
       @membership.user = current_user
       respond_to do |format|
         if @membership.save
-          format.html { redirect_to @membership, notice: 'You just joined #{@membership.beer_club.name}' }
+          format.html { redirect_to @membership, notice: "You just joined #{@membership.beer_club.name}! Congratulations!" }
           format.json { render :show, status: :created, location: @membership }
         else
           format.html { render :new }
@@ -73,6 +74,10 @@ class MembershipsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_membership
       @membership = Membership.find(params[:id])
+    end
+
+    def set_beer_clubs_for_template
+      @beer_clubs = BeerClub.all.reject{ |b| b.members.include? current_user }
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 describe "Beers page" do
+	before :each do
+		@user = FactoryGirl.create(:user, username:"Pekka")
+		sign_in({username:'Pekka', password:'Foobar1'})
+	end
 
 	describe "when beers exist" do
 		before :each do

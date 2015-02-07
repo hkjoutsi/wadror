@@ -18,13 +18,17 @@
 
 <p>
   <% if @beer.ratings.empty? %>
-  This beer has no ratings yet!
+    This beer has no ratings yet!
   <% else %>
-  <% c = @beer.ratings.count %>
-  <% rating_plural = pluralize(c, 'rating') %>
-  Has <%= rating_plural %>, average <%= @beer.average_rating %>.
+    <% c = @beer.ratings.count %>
+    <% rating_plural = pluralize(c, 'rating') %>
+    Has <%= rating_plural %>, average <%= @beer.average_rating %>.
 <% end %>
 </p>
 
-<%= link_to 'Edit', edit_beer_path(@beer) %>
-<%= link_to 'Back', beers_path %>
+<%= link_to 'Back', beers_path %> |
+
+<% if current_user %>
+  <td><%= link_to 'Edit', edit_beer_path(@beer) %></td>
+  <td><%= link_to 'Destroy this beer', @beer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+<% end %>

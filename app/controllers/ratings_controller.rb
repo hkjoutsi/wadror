@@ -17,7 +17,7 @@ class RatingsController < ApplicationController
             @rating = Rating.create params.require(:rating).permit(:score, :beer_id)
             if @rating.save
                 current_user.ratings << @rating
-                redirect_to current_user
+                redirect_to current_user, notice: "You gave #{ @rating.beer.name } a rating of #{@rating.score} points."
             else
                 @beers = Beer.all
                 render :new

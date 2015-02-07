@@ -1,14 +1,18 @@
 <p id="notice"><%= notice %></p>
 
+<h2>Membership</h2>
 <p>
   <strong>Beer club:</strong>
-  <%= @membership.beer_club_id %>
+  <%= @membership.beer_club.name %>
 </p>
 
 <p>
   <strong>User:</strong>
-  <%= @membership.user_id %>
+  <%= @membership.user.username %>
 </p>
 
-<%= link_to 'Edit', edit_membership_path(@membership) %> |
+<% if current_user %>
+	<%= link_to 'Leave this club', @membership, method: :delete, data: { confirm: 'Are you sure?' } %> |
+	<%= link_to 'Edit', edit_membership_path(@membership) %> |
+<% end %>
 <%= link_to 'Back', memberships_path %>

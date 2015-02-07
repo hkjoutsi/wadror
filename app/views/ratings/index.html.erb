@@ -1,15 +1,39 @@
 <h2>List of ratings</h2>
 
-<p>To be completed...</p>
-
+<!--
 <ul>
     <% @ratings.each do |rating| %>
     	<li><%= rating %> <%= link_to rating.user.username, rating.user %></li>
     <% end %>
 </ul>
+-->
+
+<table >
+  <thead>
+    <tr>
+      <th>Beer</th>
+      <th>Score (points)</th>
+      <th>Rated by</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ratings.each do |rating| %>
+      <tr>
+        <td><%= rating.beer %></td>
+        <td><%= rating.score %></td>
+        <td><%= rating.user.username %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
 <p>
-Count of ratings: <%= @ratings.count%>
+<strong> Total ratings: <%= @ratings.count%> </strong>
 </p>
 
 <%= link_to 'List of beers to rate', beers_path %>
+<% if current_user %>
+	| <%= link_to 'Rate a beer!', new_rating_path %>
+<% end %>

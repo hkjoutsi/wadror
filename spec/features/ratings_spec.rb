@@ -39,12 +39,16 @@ describe "Rating" do
 
     expect(Rating.all.count).to eq(3)
     expect(user.ratings.count).to eq(3)
-    
-    expect(page).to have_content "anonymous: 1p"
-    expect(page).to have_content "anonymous: 10p"
-    expect(page).to have_content "anonymous: 100p"
 
-    expect(page).to have_content "Count of ratings: 3"
+    expect(page).to have_content "Beer"
+    expect(page).to have_content "Score (points)"
+    expect(page).to have_content "Rated by"
+
+    expect(page).to have_content "anonymous, from Koff 1"
+    expect(page).to have_content "anonymous, from Koff 10"
+    expect(page).to have_content "anonymous, from Koff 100"
+
+    expect(page).to have_content "Total ratings: 3"
 
   end
 
