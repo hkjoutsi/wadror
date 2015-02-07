@@ -12,7 +12,7 @@ class RatingsController < ApplicationController
         #Rating.create params[:rating]
         #Rating.create beer_id:params[:rating][:beer_id], score:params[:rating][:score]
 
-        #väliaikainen ratkaisu sille, etten halua muiden kuin sisäänkirjautuneiden käyttäjän reittaavan oluita
+        #vain juuserit saa reitata
         unless current_user.nil?
             @rating = Rating.create params.require(:rating).permit(:score, :beer_id)
             if @rating.save
@@ -23,7 +23,7 @@ class RatingsController < ApplicationController
                 render :new
             end
         else 
-            raise 
+            redirect_to signin_path, notice:'you should be signed in' 
         end
         
         #tallennetaan juuri tehty reittaus sessioon

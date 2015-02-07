@@ -7,9 +7,10 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def current_user
-  	#return nil if session[:user_id].nil?
-  	if User.where(id: session[:user_id]).empty?
-  		session[:user_id] = nil #just in case!
+  	return nil if session[:user_id].nil?
+  	
+    if User.where(id: session[:user_id]).empty? #just in case?
+  		session[:user_id] = nil
   		return nil
   	else return User.find(session[:user_id])
   	end

@@ -7,9 +7,18 @@ gem 'rails', '4.2.0'
 # gem 'sqlite3'
 group :development, :test do
   gem 'sqlite3'
+  gem 'rspec-rails', '~> 3.0'
+  gem 'rspec-its'
 end
 
 gem 'bcrypt', '~> 3.1.7'
+
+group :test do
+  gem 'factory_girl_rails'
+  gem 'capybara'
+  gem 'launchy'
+  gem 'simplecov', require: false
+end
 
 group :production do
    gem 'pg'

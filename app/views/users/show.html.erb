@@ -8,6 +8,18 @@
 	Average rating being <%= @user.average_rating %>.
 </p>
 
+<p>
+	<% unless @user.favorite_beer.nil? %>
+		Favorite beer: <%= @user.favorite_beer %>. <br>
+	<% end %>
+	<% unless @user.favorite_style.nil? %>
+		Favorite style: <%= @user.favorite_style %>. <br>
+	<% end %>
+	<% unless @user.favorite_brewery.nil? %>
+		Favorite brewery: <%= @user.favorite_brewery %>.
+	<% end %>
+</p>
+
 <div>
 	<h3>Ratings:</h3>
 	<ul>

@@ -5,7 +5,7 @@ class Brewery < ActiveRecord::Base
     has_many :ratings, through: :beers
     validates :name, presence: true
     validates :year, numericality: { only_integer: true,
-                                    greater_than_or_equal_to: 1042}
+                                    greater_than_or_equal_to: 1024}
                                     #less_than_or_equal_to: Proc.new{Time.now.year}} #durdurdur not sure if this works?
     validate :year_not_in_the_future
 
@@ -25,6 +25,11 @@ class Brewery < ActiveRecord::Base
         unless year <= Time.now.year
             errors.add(:year, "can't be in the future!")
         end
+    end
+
+    def to_s
+        #"moi! oon panimo."
+        name
     end
 
 #    def average_rating

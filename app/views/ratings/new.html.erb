@@ -1,5 +1,7 @@
 <h2>Create new rating</h2>
 
+<p>Obs! The score has to be between 1...100 points!</p>
+
 <%= form_for(@rating) do |f|%>
 	<% if @rating.errors.any? %>
     	<div id="error_explanation">
