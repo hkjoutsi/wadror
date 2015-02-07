@@ -20,6 +20,7 @@ class BeerClubsController < ApplicationController
   # GET /beer_clubs/1/edit
   def edit
   end
+  
 
   # POST /beer_clubs
   # POST /beer_clubs.json

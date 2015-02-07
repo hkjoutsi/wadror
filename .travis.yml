@@ -1,10 +1,16 @@
 language: ruby
-
 rvm:
- - 2.2.0
-
+- 2.2.0
 script:
- - bundle exec rake db:migrate --trace
- - RAILS_ENV=test bundle exec rake db:migrate --trace
- - bundle exec rake db:test:prepare
- - bundle exec rspec -fd spec/
+- bundle exec rake db:migrate --trace
+- RAILS_ENV=test bundle exec rake db:migrate --trace
+- bundle exec rake db:test:prepare
+- bundle exec rspec -fd spec/
+deploy:
+  provider: heroku
+  api_key:
+    secure: Ml3cAfMrUZInvnC+J/jHyTu3r/JDAR1hwdXp/wtTZx+afXSVxnokp+9ToCCDvKjRFH/33dtJpVKPhJHTDGmPo/GlxABBFoNv9tqJTcSceaLdS2EcFz6zVbH1ybj5O2nN/n/5Qm8FknH9MrFcJyN0wBFWLrVUrxNuoIW28FPjBwc=
+  app: oluetriviin
+  on:
+    repo: hkjoutsi/wadror
+  run: "rake db:migrate"
