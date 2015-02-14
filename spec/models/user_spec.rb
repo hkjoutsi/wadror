@@ -83,8 +83,7 @@ RSpec.describe User, type: :model do
   	end
 
   	describe "favorite style" do
-  		
-  		let(:user){ user = FactoryGirl.create(:user) }
+  		let!(:user){ user = FactoryGirl.create(:user) }
 
   		it "has a method for determining the favorite_style" do
   			expect(user).to respond_to(:favorite_style)
@@ -99,28 +98,31 @@ RSpec.describe User, type: :model do
 	  		
 	  		expect(user.favorite_style).to eq(beer.style)
 	  	end
+  		describe "with multiple ratings" do
+  			
+  			let!(:style1){ style1 = FactoryGirl.create(:style, style:"IPA") }
+			let!(:lager){ lager = FactoryGirl.create(:style, style:"Lager") }
+			let!(:porter){ porter = FactoryGirl.create(:style, style:"Porter") }
+			#before :each do
+			#IPA = FactoryGirl.create(:style, style:"IPA") 
+			#lager = FactoryGirl.create(:style, style:"Lager") 
+			#porter = FactoryGirl.create(:style, style:"Porter") 
+	  		#end
+		  	it "is the style with highest AVERAGE rating if several beers rated" do
+		  		best = create_beer_with_rating_and_style(style1, 50, user)
+		  		create_beer_with_rating_and_style(lager , 10, user)
+		  		create_beer_with_rating_and_style(porter, 35, user)
+		  		create_beer_with_rating_and_style(porter, 35, user)
+		  		
+		  		expect(user.favorite_style).to eq(best.style)
+		  	end
 
-	  	it "is the style with highest AVERAGE rating if several beers rated" do
-	  		IPA = FactoryGirl.create(:style, style:"IPA")
-	  		lager = FactoryGirl.create(:style, style:"Lager")
-	  		porter = FactoryGirl.create(:style, style:"Porter")
-
-	  		best = create_beer_with_rating_and_style(IPA, 50, user)
-	  		create_beer_with_rating_and_style(lager, 10, user)
-	  		create_beer_with_rating_and_style(porter, 35, user)
-	  		create_beer_with_rating_and_style(porter, 35, user)
-	  		
-	  		expect(user.favorite_style).to eq(best.style)
-	  	end
-
-	  	it "TESTES THE HELPER FUNCTION IN THIS TEST CLASS -> is the style with highest average rating if several beers rated" do
-	  		IPA = FactoryGirl.create(:style, style:"IPA")
-	  		lager = FactoryGirl.create(:style, style:"Lager")
-	  		porter = FactoryGirl.create(:style, style:"Porter")
-	  		stylesAndScoresHash = { IPA => [50], lager => [10, 45], porter => [5, 28]}
-	  		create_beers_with_ratings_and_styles(stylesAndScoresHash, user)
-	  		
-	  		expect(user.favorite_style).to eq(IPA)
+		  	it "TESTES THE HELPER FUNCTION IN THIS TEST CLASS -> is the style with highest average rating if several beers rated" do
+		  		stylesAndScoresHash = { style1 => [50], lager => [10, 45], porter => [5, 28]}
+		  		create_beers_with_ratings_and_styles(stylesAndScoresHash, user)
+		  		
+		  		expect(user.favorite_style).to eq(style1)
+		  	end
 	  	end
   	end
 

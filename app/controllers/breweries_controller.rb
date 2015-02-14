@@ -75,8 +75,6 @@ class BreweriesController < ApplicationController
 
   # HUOM: älä kirjoita private-määrettä tiedostoon ennen kontrollerimetodeja (index, new, ...)
 
-  private
-
 #  def authenticate
 #      #raise "toteuta autentikointi"
 #      admin_accounts = { "admin" => "secret", "pekka" => "beer", "heta" => "kissa", "muita" => "pareja"}
