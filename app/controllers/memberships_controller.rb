@@ -1,5 +1,5 @@
 class MembershipsController < ApplicationController
-  before_action :set_membership, only: [:show, :edit, :update, :destroy]
+  before_action :set_membership, only: [:show, :edit, :update]
   before_action :set_beer_clubs_for_template, only: [:new, :edit, :create]
 
   # GET /memberships
@@ -35,7 +35,7 @@ class MembershipsController < ApplicationController
       @membership.user = current_user
       respond_to do |format|
         if @membership.save
-          format.html { redirect_to @membership, notice: "You just joined #{@membership.beer_club.name}! Congratulations!" }
+          format.html { redirect_to @membership.beer_club, notice: "You just joined #{@membership.beer_club.name}! Congratulations!" }
           format.json { render :show, status: :created, location: @membership }
         else
           format.html { render :new }
@@ -63,10 +63,24 @@ class MembershipsController < ApplicationController
   # DELETE /memberships/1
   # DELETE /memberships/1.json
   def destroy
-    @membership.destroy
-    respond_to do |format|
-      format.html { redirect_to memberships_url, notice: 'Membership was successfully destroyed.' }
-      format.json { head :no_content }
+    #if requests comes from a different path, search by the information provided
+    current_uri = request.env['PATH_INFO']
+    if current_uri == "/memberships"
+      beer_club_id = params[:membership][:beer_club_id]
+      @membership =  Membership.find_by_beer_club_id_and_user_id(beer_club_id, current_user.id)
+    end
+
+    #else we assume, that the delete request came from the usual place, memberships/:id
+    unless current_user.nil? or current_user!=@membership.user
+
+      @membership.destroy
+      respond_to do |format|
+        byebug
+        format.html { redirect_to current_user, notice: "Your membership in #{@membership.beer_club.name} ended." }
+        format.json { head :no_content }
+      end
+    else
+      redirect_to memberships_url, notice: "You aren't allowed to touch other users memberships! You bastard."
     end
   end
 

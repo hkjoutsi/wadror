@@ -22,13 +22,28 @@
   <% else %>
     <% c = @beer.ratings.count %>
     <% rating_plural = pluralize(c, 'rating') %>
-    Has <%= rating_plural %>, average <%= @beer.average_rating %>.
+    Has <%= rating_plural %>, average score <%= @beer.average_rating %>.
 <% end %>
 </p>
 
-<%= link_to 'Back', beers_path %> |
-
 <% if current_user %>
-  <td><%= link_to 'Edit', edit_beer_path(@beer) %></td>
-  <td><%= link_to 'Destroy this beer', @beer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+<div>
+  <h4>Give a rating:</h4>
+
+  <%= form_for(@rating) do |f| %>
+    <%= f.hidden_field :beer_id %>
+    score: <%= f.number_field :score %>
+    <%= f.submit %>
+  <% end %>
+</div>
 <% end %>
+
+<br>
+<div>
+  <%= link_to 'Back', beers_path %> |
+
+  <% if current_user %>
+    <td><%= link_to 'Edit', edit_beer_path(@beer) %></td>
+    <td><%= link_to 'Destroy this beer', @beer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  <% end %>
+</div>

@@ -16,12 +16,19 @@
     </div>
     <div class="field">
       <%= f.label :style %><br>
-      <%= f.select :style, options_for_select(@styles) %>
+      <% if @beer.new_record? %>
+        <%= f.select :style, options_for_select(@styles) %>
+      <% else %>
+        <%= f.select :style, options_for_select(@styles, selected: @beer.style) %>
+      <% end %>
     </div>
     <div class="field">
       <%= f.label :brewery_id %><br>
-      <!-- <%= f.number_field :brewery_id %>-->
-      <%= f.select :brewery_id, options_from_collection_for_select(@breweries, :id, :name) %>
+      <% if @beer.new_record? %>
+        <%= f.select :brewery_id, options_from_collection_for_select(@breweries, :id, :name) %>
+      <% else %>
+        <%= f.select :brewery_id, options_from_collection_for_select(@breweries, :id, :name, selected: @beer.brewery_id) %>
+      <% end %>
     </div>
     <div class="actions">
       <%= f.submit %>

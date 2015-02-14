@@ -24,4 +24,9 @@ FactoryGirl.define do
 		brewery
 		style "Lager"
 	end
+
+	factory :place do
+		sequence(:name, 0) { |n| "Oljenkorsi#{n}" }
+		sequence(:id, 0) { |n| n }
+	end	
 end

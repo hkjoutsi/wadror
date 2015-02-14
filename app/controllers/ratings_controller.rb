@@ -9,12 +9,15 @@ class RatingsController < ApplicationController
     end
 
     def create
+        request_path = request.env['PATH_INFO'] #tätä vois käyttää siihen, että ohjataan uuseri takaisin sille sivulle josta yritettiin reitata..
         #Rating.create params[:rating]
         #Rating.create beer_id:params[:rating][:beer_id], score:params[:rating][:score]
+        
+        #byebug
 
         #vain juuserit saa reitata
         unless current_user.nil?
-            @rating = Rating.create params.require(:rating).permit(:score, :beer_id)
+            @rating = Rating.new params.require(:rating).permit(:score, :beer_id)
             if @rating.save
                 current_user.ratings << @rating
                 redirect_to current_user, notice: "You gave #{ @rating.beer.name } a rating of #{@rating.score} points."
