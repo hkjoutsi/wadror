@@ -25,17 +25,19 @@
 </div>
 
 <div>
-	<% unless current_user.beer_clubs.include?(@beer_club) %>
-		
-		<%= form_for(@membership) do |f| %>
-		    <%= f.hidden_field :beer_club_id %>
-		    <%= f.submit value:"join the club" %>
+	<% unless current_user.nil? %>
+		<% unless current_user.beer_clubs.include?(@beer_club) %>
+			
+			<%= form_for(@membership) do |f| %>
+			    <%= f.hidden_field :beer_club_id %>
+			    <%= f.submit value:"join the club" %>
+			<% end %>
+		<% else %>
+			<%= form_for(@membership, method: "delete") do |f| %>
+				<%= f.hidden_field :beer_club_id %>
+				<%= f.submit value: "end the membership" %>
+	   		<% end %>
 		<% end %>
-	<% else %>
-		<%= form_for(@membership, method: "delete") do |f| %>
-			<%= f.hidden_field :beer_club_id %>
-			<%= f.submit value: "end the membership" %>
-   		<% end %>
 	<% end %>
 </div>
 

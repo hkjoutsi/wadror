@@ -12,6 +12,11 @@ class BeerClubsController < ApplicationController
   def show
     @membership = Membership.new
     @membership.beer_club = @beer_club
+    if @beer_club.nil?
+      redirect_to beer_clubs_path, notice:  "There is no beer club with that id"
+    else
+      render :show
+    end
   end
 
   # GET /beer_clubs/new
@@ -68,7 +73,7 @@ class BeerClubsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_beer_club
-      @beer_club = BeerClub.find(params[:id])
+      @beer_club = BeerClub.find_by_id(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
