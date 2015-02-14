@@ -25,8 +25,9 @@ Rails.application.routes.draw do
 
   post 'places', to:'places#search'
 
-  get 'styles', to: 'styles#index'
-  get 'styles/:id', to: 'styles#show'
+  #get 'styles', to: 'styles#index'
+  #get '/styles/:id', to: 'styles#show'
+  resources :styles, only: [:index, :show]
 
   root 'breweries#index'
 

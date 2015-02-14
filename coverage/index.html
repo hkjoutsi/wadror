@@ -14,26 +14,26 @@
       <img src="./assets/0.8.0/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2015-02-14T23:47:08+02:00">2015-02-14T23:47:08+02:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2015-02-15T00:11:07+02:00">2015-02-15T00:11:07+02:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
         <div class="file_list_container" id="AllFiles">
   <h2>
     <span class="group_name">All Files</span>
-    (<span class="covered_percent"><span class="red">72.43%</span></span>
+    (<span class="covered_percent"><span class="red">72.61%</span></span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         4.52
+         4.49
        </span>
     </span> hits/line)
   </h2>
   <a name="AllFiles"></a>
   <div>
     <b>24</b> files in total.
-    <b>301</b> relevant lines. 
-    <span class="green"><b>218</b> lines covered</span> and
+    <b>303</b> relevant lines. 
+    <span class="green"><b>220</b> lines covered</span> and
     <span class="red"><b>83</b> lines missed </span>
   </div>
   <table class="file_list">
@@ -253,11 +253,11 @@
       <tr>
         <td class="strong"><a href="#fc6e923b6942f69ece9d89b746866207597c5d3b" class="src_link" title="app/models/style.rb">app/models/style.rb</a></td>
         <td class="green strong">100.0 %</td>
-        <td>9</td>
-        <td>5</td>
-        <td>5</td>
+        <td>12</td>
+        <td>7</td>
+        <td>7</td>
         <td>0</td>
-        <td>4.0</td>
+        <td>3.1</td>
       </tr>
       
       <tr>
@@ -406,19 +406,19 @@
           <div class="file_list_container" id="Models">
   <h2>
     <span class="group_name">Models</span>
-    (<span class="covered_percent"><span class="yellow">82.47%</span></span>
+    (<span class="covered_percent"><span class="yellow">82.83%</span></span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         5.49
+         5.4
        </span>
     </span> hits/line)
   </h2>
   <a name="Models"></a>
   <div>
     <b>9</b> files in total.
-    <b>97</b> relevant lines. 
-    <span class="green"><b>80</b> lines covered</span> and
+    <b>99</b> relevant lines. 
+    <span class="green"><b>82</b> lines covered</span> and
     <span class="red"><b>17</b> lines missed </span>
   </div>
   <table class="file_list">
@@ -508,11 +508,11 @@
       <tr>
         <td class="strong"><a href="#fc6e923b6942f69ece9d89b746866207597c5d3b" class="src_link" title="app/models/style.rb">app/models/style.rb</a></td>
         <td class="green strong">100.0 %</td>
-        <td>9</td>
-        <td>5</td>
-        <td>5</td>
+        <td>12</td>
+        <td>7</td>
+        <td>7</td>
         <td>0</td>
-        <td>4.0</td>
+        <td>3.1</td>
       </tr>
       
       <tr>
@@ -4517,8 +4517,8 @@
     <h3>app/models/style.rb</h3>
     <h4><span class="green">100.0 %</span> covered</h4>
     <div>
-      <b>5</b> relevant lines. 
-      <span class="green"><b>5</b> lines covered</span> and
+      <b>7</b> relevant lines. 
+      <span class="green"><b>7</b> lines covered</span> and
       <span class="red"><b>0</b> lines missed.</span>
     </div>
   </div>
@@ -4532,49 +4532,67 @@
           <code class="ruby">class Style &lt; ActiveRecord::Base</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="2">
-          
-          
-          <code class="ruby">	#has_many :beers, dependent: :destroy</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="3">
+        <li class="covered" data-hits="1" data-linenumber="2">
           <span class="hits">1</span>
           
-          <code class="ruby">	validates :style, uniqueness: true, length: { minimum: 3, maximum: 30 }</code>
+          <code class="ruby">	include RatingAverage</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="4">
-          <span class="hits">1</span>
-          
-          <code class="ruby">	has_many :beers, dependent: :destroy</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="5">
+        <li class="never" data-hits="" data-linenumber="3">
           
           
           <code class="ruby"></code>
         </li>
       
+        <li class="never" data-hits="" data-linenumber="4">
+          
+          
+          <code class="ruby">	#has_many :beers, dependent: :destroy</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="5">
+          <span class="hits">1</span>
+          
+          <code class="ruby">	validates :style, uniqueness: true, length: { minimum: 3, maximum: 30 }</code>
+        </li>
+      
         <li class="covered" data-hits="1" data-linenumber="6">
           <span class="hits">1</span>
           
-          <code class="ruby">	def to_s</code>
+          <code class="ruby">	has_many :beers, dependent: :destroy</code>
         </li>
       
-        <li class="covered" data-hits="16" data-linenumber="7">
-          <span class="hits">16</span>
+        <li class="covered" data-hits="1" data-linenumber="7">
+          <span class="hits">1</span>
           
-          <code class="ruby">		style</code>
+          <code class="ruby">	has_many :ratings, through: :beers</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="8">
           
           
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="9">
+          <span class="hits">1</span>
+          
+          <code class="ruby">	def to_s</code>
+        </li>
+      
+        <li class="covered" data-hits="16" data-linenumber="10">
+          <span class="hits">16</span>
+          
+          <code class="ruby">		style</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="11">
+          
+          
           <code class="ruby">	end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="9">
+        <li class="never" data-hits="" data-linenumber="12">
           
           
           <code class="ruby">end</code>

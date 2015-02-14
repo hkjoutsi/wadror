@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Style:</strong>
+  <%= @style.style %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @style.description%>
+</p>
+
+<div>
+  <% if @style.beers.empty? %>
+    <p>This style has no beers yet!</p>
+  <% else %>
+    <p>
+    <% c = @style.beers.count %>
+    <% beer_plural = pluralize(c, 'beer') %>
+    There are <%= beer_plural %> of this style, their average score being <%= @style.average_rating %>.
+    </p>
+    <p>
+      <% @style.beers.each do |beer| %>
+        <ul>
+          <li><%= link_to beer, beer_path(beer) %></li>
+        </ul>
+      <% end %>
+    </p>
+<% end %>
+</div>
+
+
+  <%= link_to 'Back', styles_path %>

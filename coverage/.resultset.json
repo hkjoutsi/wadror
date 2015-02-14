@@ -131,7 +131,10 @@
       ],
       "/home/heta/wadror/ratebeer/app/models/style.rb": [
         1,
+        1,
         null,
+        null,
+        1,
         1,
         1,
         null,
@@ -712,6 +715,6 @@
         null
       ]
     },
-    "timestamp": 1423950428
+    "timestamp": 1423951867
   }
 }
