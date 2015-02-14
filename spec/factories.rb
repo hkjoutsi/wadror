@@ -19,10 +19,15 @@ FactoryGirl.define do
 		year 1900
 	end
 
+	factory :style do
+		sequence(:style, 0) { |n| "Lager#{n}" }
+		description "is very nice"
+	end
+
 	factory :beer do
 		name "anonymous"
 		brewery
-		style "Lager"
+		style
 	end
 
 	factory :place do

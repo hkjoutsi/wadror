@@ -9,7 +9,7 @@ describe "Beers page" do
 	describe "when beers exist" do
 		before :each do
 			@beers = ["Iso 3", "Karhu"]
-			style = "Lager"
+			style = FactoryGirl.create :style
 			brewery = FactoryGirl.create(:brewery, name:"Koff")
 			@beers.each do |beer_name|
 		    	FactoryGirl.create(:beer, name:beer_name, style:style, brewery:brewery)
@@ -39,46 +39,44 @@ describe "Beers page" do
 	describe "when creating a new beer" do
 		let!(:brewery) { FactoryGirl.create :brewery, name:"Koff" }
 		before :each do
+			FactoryGirl.create(:style, style:"Lager")
 			visit new_beer_path
 		end
+	  	it "with a valid name it is created and browser redirects to the beer's page" do
+			#save_and_open_page
+			#puts page.html
+			fill_in('beer[name]', with:"Iso 3")
+			select('Lager', from:'beer[style_id]')
+			select('Koff', from:'beer[brewery_id]')
 
-		describe "with a valid name" do
+		    expect{
+		      click_button "Create Beer"
+		    }.to change{Beer.count}.from(0).to(1)
 
-		  	it "it is created and browser redirects to the beer's page" do
-				#save_and_open_page
-				fill_in('beer[name]', with:"Iso 3")
-				select('Lager', from:'beer[style]')
-				select('Koff', from:'beer[brewery_id]')
+		    expect(brewery.beers.count).to eq(1)
 
-			    expect{
-			      click_button "Create Beer"
-			    }.to change{Beer.count}.from(0).to(1)
-
-			    expect(brewery.beers.count).to eq(1)
-
-			    expect(current_path).to eq(beer_path(Beer.first))
-      			expect(page).to have_content 'Iso 3'
-			end
-
-			it "it is NOT created and browser redirects to the new beer page" do
-				#save_and_open_page
-				fill_in('beer[name]', with:"")
-				select('Lager', from:'beer[style]')
-				select('Koff', from:'beer[brewery_id]')
-
-			    click_button "Create Beer"
-			    
-			    #save_and_open_page
-
-			    expect(Beer.count).to eq(0)
-			    expect(brewery.beers.count).to eq(0)
-
-			    expect(current_path).to eq(beers_path) #koska POST beersiin
-      			expect(page).to have_content "Name can't be blank"
-      			expect(page).to have_content "New beer"
-			end
-			
+		    expect(current_path).to eq(beer_path(Beer.first))
+  			expect(page).to have_content 'Iso 3'
 		end
+
+		it "with an invalid name it is NOT created and browser redirects to the new beer page" do
+			#save_and_open_page
+			fill_in('beer[name]', with:"")
+			select('Lager', from:'beer[style_id]')
+			select('Koff', from:'beer[brewery_id]')
+
+		    click_button "Create Beer"
+		    
+		    #save_and_open_page
+
+		    expect(Beer.count).to eq(0)
+		    expect(brewery.beers.count).to eq(0)
+
+		    expect(current_path).to eq(beers_path) #koska POST beersiin
+  			expect(page).to have_content "Name can't be blank"
+  			expect(page).to have_content "New beer"
+		end
+			
 	end
 
 end

@@ -83,7 +83,8 @@ RSpec.describe User, type: :model do
   	end
 
   	describe "favorite style" do
-  		let(:user){ user = FactoryGirl.create(:user)}
+  		
+  		let(:user){ user = FactoryGirl.create(:user) }
 
   		it "has a method for determining the favorite_style" do
   			expect(user).to respond_to(:favorite_style)
@@ -100,25 +101,31 @@ RSpec.describe User, type: :model do
 	  	end
 
 	  	it "is the style with highest AVERAGE rating if several beers rated" do
-	  		best = create_beer_with_rating_and_style("IPA", 50, user)
-	  		create_beer_with_rating_and_style("Lager", 10, user)
-	  		create_beer_with_rating_and_style("Porter", 35, user)
-	  		create_beer_with_rating_and_style("Porter", 35, user)
+	  		IPA = FactoryGirl.create(:style, style:"IPA")
+	  		lager = FactoryGirl.create(:style, style:"Lager")
+	  		porter = FactoryGirl.create(:style, style:"Porter")
+
+	  		best = create_beer_with_rating_and_style(IPA, 50, user)
+	  		create_beer_with_rating_and_style(lager, 10, user)
+	  		create_beer_with_rating_and_style(porter, 35, user)
+	  		create_beer_with_rating_and_style(porter, 35, user)
 	  		
 	  		expect(user.favorite_style).to eq(best.style)
 	  	end
 
 	  	it "TESTES THE HELPER FUNCTION IN THIS TEST CLASS -> is the style with highest average rating if several beers rated" do
-	  		stylesAndScoresHash = { "IPA" => [50], "Lager" => [10, 45], "Porter" => [5, 28]}
+	  		IPA = FactoryGirl.create(:style, style:"IPA")
+	  		lager = FactoryGirl.create(:style, style:"Lager")
+	  		porter = FactoryGirl.create(:style, style:"Porter")
+	  		stylesAndScoresHash = { IPA => [50], lager => [10, 45], porter => [5, 28]}
 	  		create_beers_with_ratings_and_styles(stylesAndScoresHash, user)
 	  		
-	  		expect(user.favorite_style).to eq("IPA")
+	  		expect(user.favorite_style).to eq(IPA)
 	  	end
-
   	end
 
   	describe "favorite brewery" do
-		let(:user){ user = FactoryGirl.create(:user)}
+		let(:user){ user = FactoryGirl.create(:user) }
   		
   		it "has a method for determining the favorite_brewery" do
   			expect(user).to respond_to(:favorite_brewery)
@@ -156,8 +163,8 @@ RSpec.describe User, type: :model do
 	  	end 		
   	end
 
-  	def create_beer_with_rating(score, user, brewery = FactoryGirl.create(:brewery))
-  		beer = FactoryGirl.create(:beer, brewery:brewery)
+  	def create_beer_with_rating(score, user, brewery = FactoryGirl.create(:brewery), style = FactoryGirl.create(:style))
+  		beer = FactoryGirl.create(:beer, brewery:brewery, style:style)
   		FactoryGirl.create(:rating, score:score, beer:beer, user:user)
 
   		beer
@@ -165,9 +172,9 @@ RSpec.describe User, type: :model do
 
   	#scores - array with scores, brewery parameter optional
   	#tried with *scores and optional brewery but resulted in errors
-  	def create_beers_with_ratings(scores, user, brewery = FactoryGirl.create(:brewery))
+  	def create_beers_with_ratings(scores, user, brewery = FactoryGirl.create(:brewery), style = FactoryGirl.create(:style))
   		scores.each do |score|
-  			create_beer_with_rating(score, user, brewery)
+  			create_beer_with_rating(score, user, brewery, style)
   		end
   	end
 

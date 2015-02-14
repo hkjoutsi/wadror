@@ -15,11 +15,11 @@
       <%= f.text_field :name %>
     </div>
     <div class="field">
-      <%= f.label :style %><br>
+      <%= f.label :style_id %><br>
       <% if @beer.new_record? %>
-        <%= f.select :style, options_for_select(@styles) %>
+        <%= f.select :style_id, options_from_collection_for_select(@styles, :id, :style) %>
       <% else %>
-        <%= f.select :style, options_for_select(@styles, selected: @beer.style) %>
+        <%= f.select :style_id, options_from_collection_for_select(@styles, :id, :style, selected: @beer.style_id) %>
       <% end %>
     </div>
     <div class="field">

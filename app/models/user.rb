@@ -26,7 +26,8 @@ class User < ActiveRecord::Base
 	#modify tests accordingly if changed later to ^
 	def favorite_style
 		return nil if ratings.count == 0
-		ratings.joins(:beer).group("beers.style").average("ratings.score").max_by{ |k,v| v }[0]
+		fav_style_id = ratings.joins(:beer).group("beers.style_id").average("ratings.score").max_by{ |k,v| v }[0]
+		Style.find(fav_style_id)
 		
 		#return ratings.first.beer.style if ratings.count == 1
 		#if coming here, ratings.count > 1
