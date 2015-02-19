@@ -13,6 +13,10 @@ class User < ActiveRecord::Base
 	validates_format_of :password, :with => /(?=.*[A-Z])(?=.*[\d])(?=.{4,})/, message: "has to contain one number and one upper case letter"#, on: {:create, :edit}
 	#validates :password, format: { with: /\d.*[A-Z]|[A-Z].*\d/, message: "has to contain one number and one upper case letter" }
 
+	def to_s
+		username
+	end
+	
 	def favorite_beer
 		return nil if ratings.count == 0
 		#return ratings.first.beer if ratings.count == 1

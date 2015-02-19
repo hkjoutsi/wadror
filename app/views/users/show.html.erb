@@ -26,7 +26,7 @@
 		<% @user.ratings.each do |rating| %>
 	    	<li><%= rating %>
 				<% if @user == current_user %>
-	    			<%= link_to 'delete', rating_path(rating.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+	    			<%= link_to 'delete', rating_path(rating.id), method: :delete, class:'btn btn-danger', data: { confirm: 'Are you sure?' } %>
     			<% end %>
     		</li>
 	    <% end %>
@@ -47,5 +47,5 @@
 </div>
 <% if @user == current_user %>
 	<%= link_to 'Edit', edit_user_path(@user) %> |
-	<%= link_to 'Delete this user (yourself!)', @user, method: :delete, data: { confirm: 'Are you sure?' } %>
+	<%= link_to 'Delete this user (yourself!)', @user, method: :delete, class:'btn btn-danger', data: { confirm: 'Are you sure?' } %>
 <% end %>

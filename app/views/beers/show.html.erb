@@ -32,7 +32,7 @@
   <%= form_for(@rating) do |f| %>
     <%= f.hidden_field :beer_id %>
     score: <%= f.number_field :score %>
-    <%= f.submit %>
+    <%= f.submit class:"btn btn-primary" %>
   <% end %>
 </div>
 <% end %>
@@ -43,6 +43,6 @@
 
   <% if current_user %>
     <td><%= link_to 'Edit', edit_beer_path(@beer) %></td>
-    <td><%= link_to 'Destroy this beer', @beer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to 'Destroy this beer', @beer, method: :delete, class:'btn btn-danger', data: { confirm: 'Are you sure?' } %></td>
   <% end %>
 </div>

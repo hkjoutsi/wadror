@@ -14,9 +14,9 @@
       <%= f.select :beer_club_id, options_from_collection_for_select(@beer_clubs, :id, :to_s) %>
     </div>
     <div class="actions">
-      <%= f.submit %>
+      <%= f.submit class:"btn btn-primary" %>
     </div>
   <% else %>
-    <p>No clubs to join at the moment. <%= link_to "Create a new one?", new_beer_club_path %></p>
+    <p>No clubs to join at the moment. <%= link_to "Create a new one?", new_beer_club_path, class:"btn btn-primary" %></p>
   <% end %>
 <% end %>
