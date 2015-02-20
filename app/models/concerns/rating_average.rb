@@ -6,6 +6,7 @@ module RatingAverage
     		return 0
     	end
         #ratings.average(:score).round(1).to_s
-        ratings.average(:score).round(1)
+        #ratings.average(:score).round(1)
+        ratings.average(:score)
     end
 end

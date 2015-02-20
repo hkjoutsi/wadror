@@ -16,7 +16,11 @@ Rails.application.routes.draw do
 
   resources :breweries
 
-  resources :ratings, only: [:index, :new, :create, :destroy]
+  resources :breweries do
+    post 'toggle_activity', on: :member
+  end
+
+  resources :ratings, only: [:index, :new, :create, :destroy, :edit]
 
   resources :places, only:[:index, :show]
   # mikä generoi samat polut kuin seuraavat kaksi

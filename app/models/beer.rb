@@ -17,8 +17,7 @@ class Beer < ActiveRecord::Base
 #    end
 
     def to_s
-    	#"moi! oon olut."
-    	"#{name}, from #{brewery.name}"
+    	name
     end
 
     def average
@@ -28,6 +27,12 @@ class Beer < ActiveRecord::Base
     		return 0
     	end
     	ratings.map{ |r| r.score}.sum.to_f / ratings.count.to_f
+    end
+
+    def self.top(n = 3)
+        return nil if n < 1
+        beerHash = Beer.all.inject({}) {|result, b| result[b] = b.average_rating; result }
+        beerHash.sort_by{ |k,v| -v}[0..(n-1)]
     end
 
 end

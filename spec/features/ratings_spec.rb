@@ -29,26 +29,70 @@ describe "Rating" do
     expect(beer1.average_rating).to eq(15.0)
   end
 
-  it "All raitings are showed on the ratings index page" do
-    ratings = [1, 10, 100]
+  it "Three best beers are showed on the ratings index page" do
+    ratings = [8, 10, 20, 100]
     create_beers_with_ratings(ratings, user, brewery)
 
     visit ratings_path
 
-    #save_and_open_page
+    expect(Rating.all.count).to eq(4)
+    expect(user.ratings.count).to eq(4)
 
-    expect(Rating.all.count).to eq(3)
-    expect(user.ratings.count).to eq(3)
+    expect(page).to have_content "Best beers"
 
-    expect(page).to have_content "Beer"
-    expect(page).to have_content "Score (points)"
-    expect(page).to have_content "Rated by"
+    expect(page).to have_content "kalja 10"
+    expect(page).to have_content "kalja 20"
+    expect(page).to have_content "kalja 100"
+    expect(page).to_not have_content "kalja 8"
 
-    expect(page).to have_content "anonymous, from Koff 1"
-    expect(page).to have_content "anonymous, from Koff 10"
-    expect(page).to have_content "anonymous, from Koff 100"
+    expect(page).to have_content "Total ratings: 4"
 
-    expect(page).to have_content "Total ratings: 3"
+  end
+
+  it "Three best breweries are showed on the ratings index page" do
+    create_beer_with_rating(2, user)
+    create_beer_with_rating(50, user)
+    create_beer_with_rating(90, user)
+    create_beer_with_rating(100, user)
+
+    visit ratings_path
+
+    expect(Rating.all.count).to eq(4)
+    expect(user.ratings.count).to eq(4)
+
+    expect(page).to have_content "Best breweries"
+
+    expect(page).to have_content "anonymous 100"
+    expect(page).to have_content "anonymous 90"
+    expect(page).to have_content "anonymous 50"
+    expect(page).to_not have_content "anonymous 2"
+
+    expect(page).to have_content "Total ratings: 4"
+
+  end
+
+  it "Three most active raters(users) are showed on the ratings index page" do
+    userList = FactoryGirl.create_list(:pasi, 4)
+    FactoryGirl.create_list(:rating, 5, user:userList[0])
+    FactoryGirl.create_list(:rating, 4, user:userList[1])
+    FactoryGirl.create_list(:rating, 3, user:userList[2])
+    FactoryGirl.create_list(:rating, 2, user:userList[3])
+#    FactoryGirl.create_list(:rating, 5, user:user)
+
+    visit ratings_path
+    save_and_open_page
+
+    expect(Rating.all.count).to eq(14)
+    expect(userList[0].ratings.count).to eq(5)
+
+    expect(page).to have_content "Most active raters"
+
+    expect(page).to have_content "pasi1 5"
+    expect(page).to have_content "pasi2 4"
+    expect(page).to have_content "pasi3 3"
+    expect(page).to_not have_content "pasi4 2"
+
+    expect(page).to have_content "Total ratings: 14"
 
   end
 
@@ -68,3 +112,4 @@ describe "Rating" do
     end
 
 end
+

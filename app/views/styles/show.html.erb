@@ -16,8 +16,7 @@
   <% else %>
     <p>
     <% c = @style.beers.count %>
-    <% beer_plural = pluralize(c, 'beer') %>
-    There are <%= beer_plural %> of this style, their average score being <%= @style.average_rating %>.
+    There <%= "is".pluralize(c)%> <%= pluralize(c, 'beer') %> of this style, the average score being <%= round(@style.average_rating) %>.
     </p>
     <p>
       <% @style.beers.each do |beer| %>

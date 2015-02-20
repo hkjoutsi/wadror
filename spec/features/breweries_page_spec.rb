@@ -5,9 +5,11 @@ describe "Breweries page" do
   	it "should not have any before been created" do
 	    visit breweries_path
 	    #puts page.html
+	    #save_and_open_page
 
 	    expect(page).to have_content 'Listing breweries'
-	    expect(page).to have_content 'Number of breweries: 0'
+	    expect(page).to have_content 'Number of active breweries: 0'
+	    expect(page).to have_content 'Number of retired breweries: 0'
 	end
 
 	describe "when breweries exist" do
@@ -22,7 +24,8 @@ describe "Breweries page" do
 		end
 		
 		it "lists the existing breweries and their total number" do
-			expect(page).to have_content "Number of breweries: #{@breweries.count}"
+			expect(page).to have_content "Number of active breweries: #{@breweries.count}"
+			expect(page).to have_content "Number of retired breweries: 0"
 			#save_and_open_page
 
 		    @breweries.each do |brewery_name|

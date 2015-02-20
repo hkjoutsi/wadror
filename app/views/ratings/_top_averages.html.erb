@@ -1,0 +1,19 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th></th>
+      <th>average</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+    <tbody>
+    <!-- Array with arrays of the form [name, score/count/etc.] -->
+    <% object.each do |nameAndValue| %>
+      <tr>
+        <td><%= nameAndValue[0] %></td>
+        <td><%= round(nameAndValue[1])%></td>
+      </tr>
+    <% end %>
+  </tbody>
+
+</table>

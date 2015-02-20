@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
 	skip_before_action :ensure_that_signed_in, only: [:new, :create]
+	skip_before_action :ensure_that_admin, only: [:destroy]
 	
 	def new
 		#renderöi kirjautumissivun

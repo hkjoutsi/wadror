@@ -19,6 +19,8 @@
 	    	<% Place.rendered_fields.each do |f| %>
 	    		<% if f == :name %>
 	    			<td><%= link_to place.send(:name), place_path(place.send(:id)) %></td>
+	    		<% elsif f == :overall and not place.send(:overall).nil? %>
+	    			<td><%= round(place.send(:overall).to_d) %></td>
 	    		<% else %>
 	    			<td><%= place.send(f) %></td>
 	    		<% end %>

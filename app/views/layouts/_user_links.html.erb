@@ -1,6 +1,6 @@
 <%# add user related links to this file %>
 <% if current_user %>
-    <li><%= link_to current_user.username, current_user %></li>
+    <li><%= link_to 'my page', current_user %></li>
     <li><%= link_to 'rate a beer', new_rating_path %></li>
     <li><%= link_to 'join a club', new_membership_path %></li>
     <li><%= link_to 'search for bars', places_path %> </li>

@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_action :ensure_that_signed_in, except: [:index, :show]
+  before_action :ensure_that_admin, only: [:destroy]
 
   #määritellään, että metodi current_user tulee käyttöön myös näkymissä
   helper_method :current_user
@@ -19,6 +20,10 @@ class ApplicationController < ActionController::Base
 
   def ensure_that_signed_in
     redirect_to signin_path, notice: 'you should be signed in' if current_user.nil?
+  end
+
+  def ensure_that_admin
+    redirect_to signin_path, notice: 'You need admin rights to do that.' if current_user.nil? or current_user.admin != true
   end
 
 end

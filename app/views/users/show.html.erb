@@ -5,7 +5,7 @@
 </p>
 <p>
 	Has made <%= pluralize(@user.ratings.count, 'rating') %>.<br>
-	Average rating being <%= @user.average_rating %>.
+	Average rating being <%= round(@user.average_rating) %>.
 </p>
 
 <p>
@@ -21,12 +21,13 @@
 </p>
 
 <div>
-	<h3>Ratings:</h3>
+	<% unless @user.ratings.empty? %><h3>Ratings:</h3> <% end %>
 	<ul>
 		<% @user.ratings.each do |rating| %>
 	    	<li><%= rating %>
 				<% if @user == current_user %>
 	    			<%= link_to 'delete', rating_path(rating.id), method: :delete, class:'btn btn-danger', data: { confirm: 'Are you sure?' } %>
+	    			<%= link_to 'edit', edit_rating_path(rating), method: :get, class:'btn btn-primary' %>
     			<% end %>
     		</li>
 	    <% end %>
@@ -44,8 +45,13 @@
 		    <% end %>
 		</ul>
 	<% end %>
+
+<p>
+  <h3>Account functions</h3>
+</p>
+
 </div>
 <% if @user == current_user %>
-	<%= link_to 'Edit', edit_user_path(@user) %> |
+	<%= link_to 'Edit', edit_user_path(@user), class:'btn btn-primary' %> 
 	<%= link_to 'Delete this user (yourself!)', @user, method: :delete, class:'btn btn-danger', data: { confirm: 'Are you sure?' } %>
 <% end %>

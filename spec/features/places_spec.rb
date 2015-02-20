@@ -20,7 +20,7 @@ describe "Places" do
 	    )
 
 	    fill_form_with_kumpula
-
+	    save_and_open_page
 	    expect(page).to have_content "Oljenkorsi"
   	end
 

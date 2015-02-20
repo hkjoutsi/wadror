@@ -3,11 +3,16 @@ class Brewery < ActiveRecord::Base
 
 	has_many :beers, dependent: :destroy
     has_many :ratings, through: :beers
+
     validates :name, presence: true
     validates :year, numericality: { only_integer: true,
-                                    greater_than_or_equal_to: 1024}
+                                     greater_than_or_equal_to: 1024,
+                                     less_than_or_equal_to: ->(_) { Time.now.year } }
                                     #less_than_or_equal_to: Proc.new{Time.now.year}} #durdurdur not sure if this works?
-    validate :year_not_in_the_future
+    #validate :year_not_in_the_future
+
+    scope :active, -> { where active:true }
+    scope :retired, -> { where active:[nil, false] }
 
 
     def print_report
@@ -32,8 +37,10 @@ class Brewery < ActiveRecord::Base
         name
     end
 
-#    def average_rating
-#        ratings.average(:score).round(1).to_s
-#    end
+    def self.top(n = 3)
+        return nil if n < 1
+        breweryHash = Brewery.all.inject({}) {|result, b| result[b] = b.average_rating; result }
+        breweryHash.sort_by{ |k,v| -v}[0..(n-1)]
+    end
 
 end

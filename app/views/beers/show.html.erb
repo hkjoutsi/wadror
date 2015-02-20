@@ -21,7 +21,7 @@
   <% else %>
     <% c = @beer.ratings.count %>
     <% rating_plural = pluralize(c, 'rating') %>
-    Has <%= rating_plural %>, average score <%= @beer.average_rating %>.
+    Has <%= rating_plural %>, average score <%= round(@beer.average_rating) %>.
 <% end %>
 </p>
 
@@ -39,10 +39,5 @@
 
 <br>
 <div>
-  <%= link_to 'Back', beers_path %> |
-
-  <% if current_user %>
-    <td><%= link_to 'Edit', edit_beer_path(@beer) %></td>
-    <td><%= link_to 'Destroy this beer', @beer, method: :delete, class:'btn btn-danger', data: { confirm: 'Are you sure?' } %></td>
-  <% end %>
+  <%= edit_and_destroy_buttons(@beer) %>
 </div>

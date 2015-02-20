@@ -1,6 +1,7 @@
 class MembershipsController < ApplicationController
   before_action :set_membership, only: [:show, :edit, :update]
   before_action :set_beer_clubs_for_template, only: [:new, :edit, :create]
+  skip_before_action :ensure_that_admin, only: [:destroy]
 
   # GET /memberships
   # GET /memberships.json
@@ -75,7 +76,7 @@ class MembershipsController < ApplicationController
 
       @membership.destroy
       respond_to do |format|
-        byebug
+        #byebug
         format.html { redirect_to current_user, notice: "Your membership in #{@membership.beer_club.name} ended." }
         format.json { head :no_content }
       end

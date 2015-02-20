@@ -4,19 +4,20 @@ FactoryGirl.define do
 		#username "Pekka"
 		password "Foobar1"
 		password_confirmation "Foobar1"
+		admin false
 	end
 
-	factory :rating do
-		score 10
-	end
-
-	factory :rating2, class: Rating do
-		score 20
+	factory :pasi, class: User do
+		sequence(:username, 1) { |n| "pasi#{n}"}
+		password "Foobar1"
+		password_confirmation "Foobar1"
+		admin false
 	end
 
 	factory :brewery do
 		name "anonymous"
 		year 1900
+		active true
 	end
 
 	factory :style do
@@ -25,9 +26,20 @@ FactoryGirl.define do
 	end
 
 	factory :beer do
-		name "anonymous"
+		#sequence(:name, 0) { |n| "Kalja#{n}" }
+		name "kalja"
 		brewery
 		style
+	end
+
+	factory :rating do
+		score 10
+		user
+		beer
+	end
+
+	factory :rating2, class: Rating do
+		score 20
 	end
 
 	factory :place do

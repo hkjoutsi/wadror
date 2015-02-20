@@ -2,7 +2,7 @@
 
 <p>
   <strong><%= @place.name %></strong><br>
-   <%= @place.overall %> points<br>
+   <%= round(@place.overall.to_d) unless @place.send(:overall).nil? %> points<br>
 </p>
 <p>
    <%= @place.street %><br>

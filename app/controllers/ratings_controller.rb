@@ -1,11 +1,23 @@
 class RatingsController < ApplicationController
+    skip_before_action :ensure_that_admin, only: [:destroy]
+    
     def index
         @ratings = Rating.all
+        @top_breweries = Brewery.top
+        @top_beers = Beer.top
+        @top_raters = Rating.top_raters
+        @top_styles = Style.top
+        @recent_ratings = Rating.recent(5)
     end
     
     def new
         @rating = Rating.new
         @beers = Beer.all
+    end
+
+    def edit
+        @rating = Rating.find(params[:id])
+        @beer_name = @rating.beer.name
     end
 
     def create
