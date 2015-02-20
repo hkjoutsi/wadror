@@ -40,7 +40,7 @@ class Rating < ActiveRecord::Base
 
         #returns array with [brewery.name, brewery.average_rating] pairs
     def self.top_breweries(n = 3)
-    	return nil if n < 1
+    	return nil if n < 1 #or ratings empty ja sama muillekin
     	breweryHash = Rating.pluck(:beer_id).uniq.inject({}) do |result, beer_id|
 	    	brewery = Beer.find(beer_id).brewery
 	    	result[brewery.name] = brewery.average_rating
