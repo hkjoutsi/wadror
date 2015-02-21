@@ -2,6 +2,12 @@
 
 <p>
   <h2><%= @user.username %></h2>
+  <% if @user.admin? %>
+  	<h3><span class="label label-info">admin</span></h3>
+  <% end %>
+  <% if @user.disabled? %>
+  	<h3><span class="label label-warning">account frozen</span></h3>
+  <% end %>
 </p>
 <p>
 	Has made <%= pluralize(@user.ratings.count, 'rating') %>.<br>
@@ -10,13 +16,13 @@
 
 <p>
 	<% unless @user.favorite_beer.nil? %>
-		Favorite beer: <%= @user.favorite_beer %>. <br>
+		Favorite beer: <%= link_to @user.favorite_beer, @user.favorite_beer %>. <br>
 	<% end %>
 	<% unless @user.favorite_style.nil? %>
-		Favorite style: <%= @user.favorite_style %>. <br>
+		Favorite style: <%= link_to @user.favorite_style, @user.favorite_style %>. <br>
 	<% end %>
 	<% unless @user.favorite_brewery.nil? %>
-		Favorite brewery: <%= @user.favorite_brewery %>.
+		Favorite brewery: <%= link_to @user.favorite_brewery, @user.favorite_brewery %>.
 	<% end %>
 </p>
 
@@ -24,7 +30,7 @@
 	<% unless @user.ratings.empty? %><h3>Ratings:</h3> <% end %>
 	<ul>
 		<% @user.ratings.each do |rating| %>
-	    	<li><%= rating %>
+	    	<li><%= link_to rating, rating.beer %>
 				<% if @user == current_user %>
 	    			<%= link_to 'delete', rating_path(rating.id), method: :delete, class:'btn btn-danger', data: { confirm: 'Are you sure?' } %>
 	    			<%= link_to 'edit', edit_rating_path(rating), method: :get, class:'btn btn-primary' %>
@@ -45,13 +51,22 @@
 		    <% end %>
 		</ul>
 	<% end %>
-
-<p>
-  <h3>Account functions</h3>
-</p>
-
 </div>
 <% if @user == current_user %>
-	<%= link_to 'Edit', edit_user_path(@user), class:'btn btn-primary' %> 
-	<%= link_to 'Delete this user (yourself!)', @user, method: :delete, class:'btn btn-danger', data: { confirm: 'Are you sure?' } %>
+	<div>
+	  <% unless @user.disabled? %>
+		  <h3>Account functions</h3>
+		  <%= link_to 'Edit', edit_user_path(@user), class:'btn btn-primary' %> 
+		  <%= link_to 'Delete this user (yourself!)', @user, method: :delete, class:'btn btn-danger', data: { confirm: 'Are you sure?' } %>
+	  <% end %>
+	</div>
+<% end %>
+<% if current_user.admin? %>
+	<div>
+	  <% unless @user.disabled? %>
+	  	<%= link_to "Freeze account", toggle_disabled_user_path(@user.id), method: :post, class: "btn btn-danger" %>
+	  <% else %>
+	  	  <%= link_to "Enable account", toggle_disabled_user_path(@user.id), method: :post, class: "btn btn-primary" %>
+	  <% end %>
+	</div>
 <% end %>

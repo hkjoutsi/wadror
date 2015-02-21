@@ -80,7 +80,7 @@ describe "Rating" do
 #    FactoryGirl.create_list(:rating, 5, user:user)
 
     visit ratings_path
-    save_and_open_page
+    #save_and_open_page
 
     expect(Rating.all.count).to eq(14)
     expect(userList[0].ratings.count).to eq(5)

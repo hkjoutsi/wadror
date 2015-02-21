@@ -7,6 +7,10 @@ Rails.application.routes.draw do
   resources :users
   get 'signup', to: 'users#new' 
 
+  resources :users do
+    post 'toggle_disabled', on: :member
+  end
+
   resource :session, only: [:new, :create, :delete]
   get 'signin', to: 'sessions#new'
   delete 'signout', to: 'sessions#destroy'
