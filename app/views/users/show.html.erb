@@ -61,7 +61,7 @@
 	  <% end %>
 	</div>
 <% end %>
-<% if current_user.admin? %>
+<% if current_user && current_user.admin? %>
 	<div>
 	  <% unless @user.disabled? %>
 	  	<%= link_to "Freeze account", toggle_disabled_user_path(@user.id), method: :post, class: "btn btn-danger" %>
