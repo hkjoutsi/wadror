@@ -1,14 +1,41 @@
 class BreweriesController < ApplicationController
   before_action :set_brewery, only: [:show, :edit, :update, :destroy]
   #before_action :authenticate, only: [:destroy]
+  skip_before_action :ensure_that_signed_in, only: [:list]
+  #skip_before_action :ensure_that_signed_in, only: [:list, :nglist]
 
   # GET /breweries
   # GET /breweries.json
   def index
+    #if ascending flag not yet set or false make it true, else false
+    session[:asc] = (session[:asc].nil? || session[:asc]==false) ? true : false
+
     @active_breweries = Brewery.active
     @retired_breweries = Brewery.retired
     
+    order = params[:order] || 'name'
+    ascending = session[:asc]
 
+    @active_breweries = case order
+      when 'name' then
+        #byebug
+        ascending ? @active_breweries.sort_by{ |b| b.name } : @active_breweries.sort_by{ |b| b.name }.reverse!
+      when 'year' then
+        ascending ? @active_breweries.sort_by{ |b| b.year } :  @active_breweries.sort_by{ |b| b.year }.reverse!
+    end
+
+    @retired_breweries = case order
+      when 'name' then
+        #byebug
+        ascending ? @retired_breweries.sort_by{ |b| b.name } : @retired_breweries.sort_by{ |b| b.name }.reverse!
+      when 'year' then
+        ascending ? @retired_breweries.sort_by{ |b| b.year } :  @retired_breweries.sort_by{ |b| b.year }.reverse!
+    end
+
+  end
+
+  def list
+    @breweries = Brewery.all
   end
 
   # GET /breweries/1

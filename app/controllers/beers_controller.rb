@@ -2,11 +2,33 @@ class BeersController < ApplicationController
   before_action :set_beer, only: [:show, :edit, :update, :destroy]
   before_action :set_breweries_and_styles_for_template, only: [:new, :edit, :create]
   #before_action :ensure_that_signed_in, except: [:index, :show]
+  skip_before_action :ensure_that_signed_in, only: [:list, :nglist]
 
   # GET /beers
   # GET /beers.json
   def index
     @beers = Beer.all
+
+    order = params[:order] || 'name'
+
+    @beers = case order
+      when 'name' then @beers.sort_by{ |b| b.name }
+      when 'brewery' then @beers.sort_by{ |b| b.brewery.name }
+      when 'style' then @beers.sort_by{ |b| b.style.style }
+    end
+
+    #voisi myös:
+    # oluet nimen perusteella järjestettynä
+    #Beer.order(:name)
+    #oluet tyylin nimien perusteella järjestettynä
+    #Beer.includes(:style).order("styles.style")
+  end
+
+  def list
+    @beers = Beer.all
+  end
+
+  def nglist
   end
 
   # GET /beers/1

@@ -17,12 +17,16 @@ Rails.application.routes.draw do
 
   resources :beers
   get 'kaikki_bisset', to: 'beers#index'
+  get 'beerlist', to:'beers#list'
+  get 'ngbeerlist', to:'beers#nglist'
 
   resources :breweries
 
   resources :breweries do
     post 'toggle_activity', on: :member
   end
+
+  get 'brewerylist', to:'breweries#list'
 
   resources :ratings, only: [:index, :new, :create, :destroy, :edit]
 

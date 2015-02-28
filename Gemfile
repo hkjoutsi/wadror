@@ -15,12 +15,16 @@ gem 'httparty'
 
 gem 'bcrypt', '~> 3.1.7'
 
+gem 'jquery-turbolinks'
+
 group :test do
   gem 'factory_girl_rails'
-  gem 'capybara'
+  gem 'capybara' #browser level testing
   gem 'launchy'
   gem 'simplecov', require: false
   gem 'webmock'
+  gem 'selenium-webdriver' #different test driver for when e.g. js support is needed
+  gem 'database_cleaner' #to clean db after tests with Selenium (where self.use_transactional_fixtures = false)
 end
 
 group :production do
