@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
 		#talleetaan sessioon kirjautuneen käyttäjän id (jos olemassa)
 		if user && user.authenticate(params[:password]) and not user.disabled?
 			session[:user_id] = user.id # unless user.nil? # unless = if not
-			redirect_to user_path(user), alert: "Welcome back!" # = redirect_to user
+			redirect_to user_path(user), notice: "Welcome back!" # = redirect_to user
 		elsif user.disabled?
 			redirect_to :back, notice: "The account for #{params[:username]} has been frozen! Please contact an administrator."
 		else

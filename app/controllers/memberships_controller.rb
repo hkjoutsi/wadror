@@ -1,7 +1,7 @@
 class MembershipsController < ApplicationController
   before_action :set_membership, only: [:show, :edit, :update]
   before_action :set_beer_clubs_for_template, only: [:new, :edit, :create]
-  skip_before_action :ensure_that_admin, only: [:destroy]
+  skip_before_action :ensure_that_admin, only: [:destroy, :toggle_confirmed]
 
   # GET /memberships
   # GET /memberships.json
@@ -25,6 +25,18 @@ class MembershipsController < ApplicationController
   def edit
   end
 
+  def toggle_confirmed
+    toConfirm = Membership.find_by_id(params[:id])
+    unless toConfirm.nil? || toConfirm.confirmed
+      toConfirm.confirmed=true;
+      toConfirm.save;
+      redirect_to :back, notice: "Membership confirmed!"
+    else
+      redirect_to :back, alert: "Woops, Something went wrong."
+    end
+    
+  end
+
   # POST /memberships
   # POST /memberships.json
   def create
@@ -34,9 +46,11 @@ class MembershipsController < ApplicationController
       #@membership.user = current_user
       @membership = Membership.new params.require(:membership).permit(:beer_club_id)
       @membership.user = current_user
+      @membership.confirmed = false
+
       respond_to do |format|
         if @membership.save
-          format.html { redirect_to @membership.beer_club, notice: "You just joined #{@membership.beer_club.name}! Congratulations!" }
+          format.html { redirect_to @membership.beer_club, notice: "You're application for #{@membership.beer_club.name} has been sent! Sit still and wait for confirmation." }
           format.json { render :show, status: :created, location: @membership }
         else
           format.html { render :new }

@@ -11,4 +11,14 @@ class BeerClub < ActiveRecord::Base
     		"#{name}"
     	end
     end
+
+
+    def confirmed_members
+        return memberships.confirmed_memberships.map(&:user)
+    end
+
+    def unconfirmed_members
+        return memberships.unconfirmed_memberships.map(&:user)
+    end
+
 end

@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   resources :memberships
   delete 'memberships', to: 'memberships#destroy'
+  resources :memberships do
+    post 'toggle_confirmed', on: :member
+  end
 
   resources :beer_clubs
 

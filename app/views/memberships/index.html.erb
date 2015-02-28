@@ -7,6 +7,7 @@
     <tr>
       <th>Beer club</th>
       <th>User</th>
+      <th>Confirmed</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -14,8 +15,9 @@
   <tbody>
     <% @memberships.each do |membership| %>
       <tr>
-        <td><%= membership.beer_club.name %></td>
+        <td><%= link_to membership.beer_club.name, membership.beer_club %></td>
         <td><%= membership.user.username %></td>
+        <td><span class="label label-info"><%= membership.confirmed %></span></td>
         <td><%= link_to 'Show', membership %></td>
       </tr>
     <% end %>

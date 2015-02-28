@@ -1,0 +1,5 @@
+<ul>
+	<% memberships.each do |membership| %>
+    	<li><%= link_to membership.beer_club.name, membership.beer_club %></li>
+    <% end %>
+</ul>

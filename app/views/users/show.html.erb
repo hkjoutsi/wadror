@@ -41,17 +41,14 @@
 </div>
 
 <div>
-	<% if @user.beer_clubs.empty? %>
-		<h3><%= @user.username %> hasn't yet joined any clubs.</h3>
-	<% else %>
-		<h3>Member of:</h3>
-		<ul>
-			<% @user.beer_clubs.each do |club| %>
-		    	<li><%= link_to club.name, club %></li>
-		    <% end %>
-		</ul>
-	<% end %>
+	<h3>Confirmed memberships:</h3>
+	<%= !@user.memberships.confirmed_memberships.empty? ? (render "membership_list", memberships: @user.memberships.confirmed_memberships) : "There are no confirmed memberships." %>
+	
+	<h3>Pending applications:</h3>
+	<%= !@user.memberships.unconfirmed_memberships.empty? ? (render "membership_list", memberships: @user.memberships.unconfirmed_memberships) : "There are no applications pending." %>
+
 </div>
+
 <% if @user == current_user %>
 	<div>
 	  <% unless @user.disabled? %>

@@ -12,6 +12,7 @@ class BeerClubsController < ApplicationController
   def show
     @membership = Membership.new
     @membership.beer_club = @beer_club
+    
     if @beer_club.nil?
       redirect_to beer_clubs_path, notice:  "There is no beer club with that id"
     else
@@ -33,11 +34,17 @@ class BeerClubsController < ApplicationController
   # POST /beer_clubs.json
   def create
     @beer_club = BeerClub.new(beer_club_params)
+    @membership = Membership.new beer_club:@beer_club, user:current_user, confirmed:true
 
     respond_to do |format|
       if @beer_club.save
-        format.html { redirect_to @beer_club, notice: 'Beer club was successfully created.' }
-        format.json { render :show, status: :created, location: @beer_club }
+        if @membership.save
+          format.html { redirect_to @beer_club, notice: 'Beer club was successfully created.' }
+          format.json { render :show, status: :created, location: @beer_club }
+        else
+          #not good if we come here
+          raise
+        end
       else
         format.html { render :new }
         format.json { render json: @beer_club.errors, status: :unprocessable_entity }
