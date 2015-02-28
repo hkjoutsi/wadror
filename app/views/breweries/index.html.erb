@@ -1,14 +1,26 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Listing breweries</h1>
-<p>Number of active breweries: <%= @active_breweries.count %> </p>
 
-<%= !@active_breweries.empty? ? (render "list", breweries: @active_breweries) : "There are no active breweries available." %>
+<div style="border-style: solid;">
+  brewerylist-name: <%= ActionController::Base.new.fragment_exist?( 'brewerylist-name' ) %>
+  <br>
+  brewerylist-year: <%= ActionController::Base.new.fragment_exist?( 'brewerylist-year' ) %>
+  <br>
+  current: <%= "brewerylist-#{@order}" %>
+</div>
+<% #byebug %>
+<% cache "brewerylist-#{@order}", skip_digest: true do %>
+	<p>Number of active breweries: <%= @active_breweries.count %> </p>
 
-<p>Number of retired breweries: <%= @retired_breweries.count %> </p>
+	<%= !@active_breweries.empty? ? (render "list", breweries: @active_breweries) : "There are no active breweries available." %>
 
-<% #raise %>
-<%= !@retired_breweries.empty? ? (render "list", breweries: @retired_breweries) : "There are no retired breweries available." %>
+	<p>Number of retired breweries: <%= @retired_breweries.count %> </p>
+
+	<% #raise %>
+	<%= !@retired_breweries.empty? ? (render "list", breweries: @retired_breweries) : "There are no retired breweries available." %>
+
+<% end %>
 
 <br><br>
 

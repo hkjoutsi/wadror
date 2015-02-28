@@ -2,26 +2,40 @@
 
 <h1>Listing beers</h1>
 
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th> <%= link_to 'Name', beers_path(order:"name") %> </th>
-      <th> <%= link_to 'Style', beers_path(order:"style") %> </th>
-      <th> <%= link_to 'Brewery', beers_path(order:"brewery") %> </th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<div style="border-style: solid;">
+  beerlist-name: <%= ActionController::Base.new.fragment_exist?( 'beerlist-name' ) %>
+  <br>
+  beerlist-style: <%= ActionController::Base.new.fragment_exist?( 'beerlist-style' ) %>
+  <br>
+  beerlist-brewery: <%= ActionController::Base.new.fragment_exist?( 'beerlist-brewery' ) %>
+  <br>
+  current: <%= "beerlist-#{@order}" %>
+</div>
 
-  <tbody>
-    <% @beers.each do |beer| %>
+<% cache "beerlist-#{@order}", skip_digest: true do %>
+
+  <table class="table table-hover">
+    <thead>
       <tr>
-        <td><%= link_to beer.name, beer %></td>
-        <td><%= link_to beer.style, beer.style %></td>
-        <td><%= link_to beer.brewery.name, beer.brewery %></td>
+        <th> <%= link_to 'Name', beers_path(order:"name") %> </th>
+        <th> <%= link_to 'Style', beers_path(order:"style") %> </th>
+        <th> <%= link_to 'Brewery', beers_path(order:"brewery") %> </th>
+        <th colspan="3"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @beers.each do |beer| %>
+        <tr>
+          <td><%= link_to beer.name, beer %></td>
+          <td><%= link_to beer.style, beer.style %></td>
+          <td><%= link_to beer.brewery.name, beer.brewery %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+<% end %>
 
 <br>
 

@@ -4,32 +4,39 @@ class BreweriesController < ApplicationController
   skip_before_action :ensure_that_signed_in, only: [:list]
   #skip_before_action :ensure_that_signed_in, only: [:list, :nglist]
 
+  before_action :skip_if_cached, only:[:index]
+  before_action :expire_brewerylist, only:[:create, :update, :destroy]
+
   # GET /breweries
   # GET /breweries.json
   def index
     #if ascending flag not yet set or false make it true, else false
-    session[:asc] = (session[:asc].nil? || session[:asc]==false) ? true : false
-
+    #session[:asc] = (session[:asc].nil? || session[:asc]==false) ? true : false
+#    byebug
     @active_breweries = Brewery.active
     @retired_breweries = Brewery.retired
     
-    order = params[:order] || 'name'
-    ascending = session[:asc]
+    #order = params[:order] || 'name'
+    #ascending = session[:asc]
 
-    @active_breweries = case order
+    @active_breweries = case @order
       when 'name' then
         #byebug
-        ascending ? @active_breweries.sort_by{ |b| b.name } : @active_breweries.sort_by{ |b| b.name }.reverse!
+        #ascending ? @active_breweries.sort_by{ |b| b.name } : @active_breweries.sort_by{ |b| b.name }.reverse!
+        @active_breweries.sort_by{ |b| b.name.downcase }
       when 'year' then
-        ascending ? @active_breweries.sort_by{ |b| b.year } :  @active_breweries.sort_by{ |b| b.year }.reverse!
+        #ascending ? @active_breweries.sort_by{ |b| b.year } :  @active_breweries.sort_by{ |b| b.year }.reverse!
+        @active_breweries.sort_by{ |b| b.year }
     end
 
-    @retired_breweries = case order
+    @retired_breweries = case @order
       when 'name' then
         #byebug
-        ascending ? @retired_breweries.sort_by{ |b| b.name } : @retired_breweries.sort_by{ |b| b.name }.reverse!
+        #ascending ? @retired_breweries.sort_by{ |b| b.name } : @retired_breweries.sort_by{ |b| b.name }.reverse!
+        @retired_breweries.sort_by{ |b| b.name.downcase }
       when 'year' then
-        ascending ? @retired_breweries.sort_by{ |b| b.year } :  @retired_breweries.sort_by{ |b| b.year }.reverse!
+        #ascending ? @retired_breweries.sort_by{ |b| b.year } :  @retired_breweries.sort_by{ |b| b.year }.reverse!
+        @retired_breweries.sort_by{ |b| b.year }
     end
 
   end
@@ -110,6 +117,18 @@ class BreweriesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def brewery_params
       params.require(:brewery).permit(:name, :year, :active)
+    end
+
+    def expire_brewerylist
+      #expire_fragment('brewerylist')
+      #brewerylist-#{@order}
+      ["brewerylist-name", "brewerylist-year"].each{ |f| expire_fragment(f) }
+    end
+
+    def skip_if_cached
+      #byebug
+      @order = params[:order] || 'name'
+      return render :index if fragment_exist?( "brewerylist-#{@order}"  )
     end
 
   # HUOM: älä kirjoita private-määrettä tiedostoon ennen kontrollerimetodeja (index, new, ...)

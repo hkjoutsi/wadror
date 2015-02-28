@@ -17,6 +17,8 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'jquery-turbolinks'
 
+gem 'rack-mini-profiler'
+
 group :test do
   gem 'factory_girl_rails'
   gem 'capybara' #browser level testing

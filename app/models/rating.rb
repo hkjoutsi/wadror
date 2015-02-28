@@ -1,6 +1,6 @@
 class Rating < ActiveRecord::Base
 		
-    belongs_to :beer
+    belongs_to :beer, touch: true
     belongs_to :user #jokainen rating käyttäjäkohtainen
 
     validates :score, numericality: { greater_than_or_equal_to: 1,

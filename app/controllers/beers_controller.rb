@@ -4,17 +4,20 @@ class BeersController < ApplicationController
   #before_action :ensure_that_signed_in, except: [:index, :show]
   skip_before_action :ensure_that_signed_in, only: [:list, :nglist]
 
+  before_action :skip_if_cached, only:[:index]
+  before_action :expire_beerlist, only:[:create, :update, :destroy]
+
   # GET /beers
   # GET /beers.json
   def index
-    @beers = Beer.all
+    @beers = Beer.includes(:brewery, :style).all
+    #@beers = Beer.all
 
-    order = params[:order] || 'name'
-
-    @beers = case order
-      when 'name' then @beers.sort_by{ |b| b.name }
-      when 'brewery' then @beers.sort_by{ |b| b.brewery.name }
-      when 'style' then @beers.sort_by{ |b| b.style.style }
+    #byebug
+    @beers = case @order
+      when 'name' then @beers.sort_by{ |b| b.name.downcase }
+      when 'brewery' then @beers.sort_by{ |b| b.brewery.name.downcase }
+      when 'style' then @beers.sort_by{ |b| b.style.style.downcase }
     end
 
     #voisi myös:
@@ -108,5 +111,16 @@ class BeersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def beer_params
       params.require(:beer).permit(:name, :style_id, :brewery_id)
+    end
+
+    def expire_beerlist
+      #expire_fragment('beerlist')
+      ["beerlist-name", "beerlist-brewery", "beerlist-style"].each{ |f| expire_fragment(f) }
+    end
+
+    def skip_if_cached
+      #byebug
+      @order = params[:order] || 'name'
+      return render :index if fragment_exist?( "beerlist-#{@order}"  )
     end
 end

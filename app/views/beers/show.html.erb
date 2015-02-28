@@ -1,43 +1,50 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @beer.name %>
-</p>
+<% cache @beer do %>
 
-<p>
-  <strong>Style:</strong>
-  <%= @beer.style %>
-</p>
+  <p>
+    <strong>Name:</strong>
+    <%= @beer.name %>
+  </p>
 
-<p>
-  <strong>Brewery:</strong>
-  <%= @beer.brewery.name%>
-</p>
+  <p>
+    <strong>Style:</strong>
+    <%= link_to @beer.style, @beer.style %>
+  </p>
 
-<p>
-  <% if @beer.ratings.empty? %>
-    This beer has no ratings yet!
-  <% else %>
-    <% c = @beer.ratings.count %>
-    <% rating_plural = pluralize(c, 'rating') %>
-    Has <%= rating_plural %>, average score <%= round(@beer.average_rating) %>.
+  <p>
+    <strong>Brewery:</strong>
+    <%= link_to @beer.brewery.name, @beer.brewery %>
+  </p>
+
+  <p>
+    <% if @beer.ratings.empty? %>
+      This beer has no ratings yet!
+    <% else %>
+      <% c = @beer.ratings.count %>
+      <% rating_plural = pluralize(c, 'rating') %>
+      Has <%= rating_plural %>, average score <%= round(@beer.average_rating) %>.
+  <% end %>
+  </p>
+
 <% end %>
-</p>
+
+<!-- uncached content follows -->
 
 <% if current_user %>
-<div>
-  <h4>Give a rating:</h4>
+  <div>
+    <h4>Give a rating:</h4>
 
-  <%= form_for(@rating) do |f| %>
-    <%= f.hidden_field :beer_id %>
-    score: <%= f.number_field :score %>
-    <%= f.submit class:"btn btn-primary" %>
-  <% end %>
-</div>
+    <%= form_for(@rating) do |f| %>
+      <%= f.hidden_field :beer_id %>
+      score: <%= f.number_field :score %>
+      <%= f.submit class:"btn btn-primary" %>
+    <% end %>
+  </div>
 <% end %>
 
 <br>
+
 <div>
   <%= edit_and_destroy_buttons(@beer) %>
 </div>
