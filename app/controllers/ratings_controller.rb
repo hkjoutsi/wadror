@@ -1,7 +1,9 @@
 class RatingsController < ApplicationController
     skip_before_action :ensure_that_admin, only: [:destroy]
+    before_action :skip_if_cached, only:[:index]
     
     def index
+        #eventual consistency -mallilla nopeutettu
         @ratings = Rating.all
         @top_breweries = Brewery.top
         @top_beers = Beer.top
@@ -56,5 +58,10 @@ class RatingsController < ApplicationController
             rating.delete
             redirect_to :back, notice:"Rating successfully deleted."
         end
+    end
+
+    def skip_if_cached
+      #byebug
+      return render :index if fragment_exist?( "rating_statistics" )
     end
 end

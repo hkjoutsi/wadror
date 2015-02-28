@@ -1,36 +1,40 @@
-<h2>Rating statistics</h2>
-<div class="row">
-  <div class="col-sm-12">
-    <div class="row">
-      <div class="col-xs-4">
-        <h3> Best beers </h3>
-        <%= render "top_averages", object: @top_beers || "There are no rated beers yet." %>
-      </div>
-      <div class="col-xs-4">
-        <h3> Best breweries </h3>
-        <%= render "top_averages", object: @top_breweries || "There are no rated breweries yet." %>
-      </div>
-      <div class="col-xs-4">
-        <h3> Best styles </h3>
-        <%= render "top_averages", object: @top_styles || "There are no rated sty les yet." %>
-      </div>
-    </div>
+<% cache "rating_statistics", expires_in:10.minutes, skip_digest: true do %>
 
-    <h3> Most active raters </h3>
-    <%= render "top_ratings", object: @top_raters || "There are no raters yet." %>
+  <h2>Rating statistics</h2>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="row">
+        <div class="col-xs-4">
+          <h3> Best beers </h3>
+          <%= render "top_averages", object: @top_beers || "There are no rated beers yet." %>
+        </div>
+        <div class="col-xs-4">
+          <h3> Best breweries </h3>
+          <%= render "top_averages", object: @top_breweries || "There are no rated breweries yet." %>
+        </div>
+        <div class="col-xs-4">
+          <h3> Best styles </h3>
+          <%= render "top_averages", object: @top_styles || "There are no rated sty les yet." %>
+        </div>
+      </div>
 
-    <h3>Recent of ratings</h3>
-    <ul>
-    <% @recent_ratings.each do |rating| %>
-    <li><%= rating%> by <%= rating.user %></li>
-    <% end %>
-    </ul>
-    
-    <div>
-      <strong> Total ratings: <%= @ratings.count%> </strong>
+      <h3> Most active raters </h3>
+      <%= render "top_ratings", object: @top_raters || "There are no raters yet." %>
+
+      <h3>Recent of ratings</h3>
+      <ul>
+      <% @recent_ratings.each do |rating| %>
+      <li><%= rating%> by <%= rating.user %></li>
+      <% end %>
+      </ul>
+      
+      <div>
+        <strong> Total ratings: <%= @ratings.count%> </strong>
+      </div>
     </div>
   </div>
-</div>
+
+<% end %>
 
 <%= link_to 'List of beers to rate', beers_path, class:"btn btn-primary" %>
 <% if current_user %>
